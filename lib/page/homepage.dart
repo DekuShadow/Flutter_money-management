@@ -161,26 +161,17 @@ class _HomePageState extends State<HomePage> {
           }
           List<Transactions> statement = provider.transactions;
           return Padding(
-            padding: const EdgeInsets.fromLTRB(15, 4, 15, 10),
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 10),
             child: SafeArea(
               child: Column(
                 children: [
                   SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    height: 210,
-                    child: PageView.builder(
-                        controller: controller,
-                        itemCount: statement.length,
-                        itemBuilder: (context, index) {
-                          print(index);
-                          return TopNeuCard(
-                            balance: (BALANCE[0] - BALANCE[1]).toString(),
-                            income: BALANCE[0].toString(),
-                            expense: BALANCE[1].toString(),
-                          );
-                        }),
+                  TopNeuCard(
+                    balance: (BALANCE[0] - BALANCE[1]).toString(),
+                    income: BALANCE[0].toString(),
+                    expense: BALANCE[1].toString(),
                   ),
                   // TopNeuCard(
                   //   balance: (BALANCE[0] - BALANCE[1]).toString(),
@@ -209,7 +200,8 @@ class _HomePageState extends State<HomePage> {
                                           transactionName: x.Account.toString(),
                                           money: x.Amount,
                                           expenseOrIncome: x.Expanse,
-                                          date: DateFormat("dd/MM/yyyy").format(DateTime.parse(x.date)),
+                                          date: DateFormat("dd/MM/yyyy")
+                                              .format(DateTime.parse(x.date)),
                                           key1: x.key,
                                         );
                                       }),

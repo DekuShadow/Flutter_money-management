@@ -14,7 +14,7 @@ class TopNeuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(5),
       child: Container(
         height: 200,
         child: Center(
