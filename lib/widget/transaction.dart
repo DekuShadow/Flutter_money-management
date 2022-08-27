@@ -3,6 +3,7 @@ import 'package:expensetracker/page/form_input.dart';
 import 'package:expensetracker/providers/transaction_providers.dart';
 import 'package:expensetracker/widget/plus_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class MyTransaction extends StatefulWidget {
@@ -97,7 +98,8 @@ class _MyTransactionState extends State<MyTransaction> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) {
                         return Form_input(
-                          specify: false,statement: widget.statement,
+                          specify: false,
+                          statement: widget.statement,
                         );
                       }));
                     },
@@ -116,5 +118,113 @@ class _MyTransactionState extends State<MyTransaction> {
         ),
       );
     });
+  }
+}
+
+class screntwo_Transaction extends StatelessWidget {
+  final date;
+  List<Transactions> statement;
+  screntwo_Transaction({Key? key, this.date, required this.statement})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Color color;
+    List<Widget> addtransaction() {
+      List<Widget> transaction = [];
+      for (var index in statement) {
+        if (index.Expanse) {
+          color = Colors.greenAccent;
+        } else {
+          color = Colors.red;
+        }
+        String x = DateFormat("dd/MM/yyyy").format(DateTime.parse(index.date));
+        if (date == x) {
+          transaction.add(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                    height: 15,
+                    width: 75,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [Text(index.Account)])),
+                SizedBox(
+                    height: 15,
+                    width: 75,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [Text(index.Category)])),
+                SizedBox(
+                    height: 15,
+                    width: 155,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            index.Amount,
+                            style: TextStyle(color: color),
+                          )
+                        ]))
+              ],
+            ),
+          );
+        }
+      }
+      return transaction;
+    }
+
+    topcard() {
+      int increase_sum = 0;
+      int subtract_sum = 0;
+      for (var index in statement) {
+        if (index.Expanse) {
+          increase_sum += int.parse(index.Amount);
+        } else {
+          subtract_sum += int.parse(index.Amount);
+        }
+      }
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "$date",
+            style: TextStyle(fontSize: 18),
+          ),
+          SizedBox(
+              height: 17,
+              width: 157,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("$increase_sum", style: TextStyle(fontSize: 18,color: Colors.greenAccent)),
+                    Text("$subtract_sum",
+                        style: TextStyle(fontSize: 18, color: Colors.red))
+                  ]))
+        ],
+      );
+    }
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 5),
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10), color: Colors.white),
+        width: 400,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(children: [
+            topcard(),
+            SizedBox(
+              height: 5,
+            ),
+            Column(
+              children: addtransaction(),
+            )
+          ]),
+        ),
+      ),
+    );
   }
 }

@@ -195,6 +195,8 @@ class _HomePageState extends State<HomePage> {
                                       itemCount: provider.transactions.length,
                                       itemBuilder: (context, index) {
                                         var x = statement[index];
+                                        DateTime xx = DateTime.parse(x.date);
+                                        print("${xx.day}");
                                         return MyTransaction(
                                           statement: x,
                                           transactionName: x.Account.toString(),

@@ -20,10 +20,10 @@ class TransactionProviders with ChangeNotifier {
     int income = 0;
     int expanse = 0;
     for (var index in transactions) {
-      if (index.Expanse == false) {
-        expanse = int.parse(index.Amount) + expanse;
-      } else {
+      if (index.Expanse) {
         income = int.parse(index.Amount) + income;
+      } else {
+        expanse = int.parse(index.Amount) + expanse;
       }
     }
     package.insert(0, income);
@@ -85,6 +85,5 @@ class TransactionProviders with ChangeNotifier {
   chack_googlesheet_Writing(Write) {
     write = Write;
     print("provider write = $transactions");
-    
   }
 }

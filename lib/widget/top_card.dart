@@ -1,3 +1,5 @@
+import 'package:expensetracker/db/transactionDB.dart';
+import 'package:expensetracker/models/transactions.dart';
 import 'package:flutter/material.dart';
 
 class TopNeuCard extends StatelessWidget {
@@ -108,22 +110,84 @@ class TopNeuCard extends StatelessWidget {
           ),
         ),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Color.fromARGB(255, 255, 255, 255),
-            // boxShadow: [
-            //   BoxShadow(
-            //       color: Color.fromARGB(255, 137, 255, 237),
-            //       offset: Offset(4.0, 4.0),
-            //       blurRadius: 15.0,
-            //       spreadRadius: 1.0),
-            //   BoxShadow(
-            //       color: Color.fromARGB(255, 104, 164, 249),
-            //       offset: Offset(-4.0, -4.0),
-            //       blurRadius: 15.0,
-            //       spreadRadius: 1.0),
-            // ]
-            ),
+          borderRadius: BorderRadius.circular(15),
+          color: Color.fromARGB(255, 255, 255, 255),
+          // boxShadow: [
+          //   BoxShadow(
+          //       color: Color.fromARGB(255, 137, 255, 237),
+          //       offset: Offset(4.0, 4.0),
+          //       blurRadius: 15.0,
+          //       spreadRadius: 1.0),
+          //   BoxShadow(
+          //       color: Color.fromARGB(255, 104, 164, 249),
+          //       offset: Offset(-4.0, -4.0),
+          //       blurRadius: 15.0,
+          //       spreadRadius: 1.0),
+          // ]
+        ),
       ),
     );
+  }
+}
+
+class Screntwo_top_card extends StatelessWidget {
+  List<Transactions> statement;
+  Screntwo_top_card({required this.statement});
+
+  @override
+  Widget build(BuildContext context) {
+    top_card() {
+      int income = 0;
+      int expense = 0;
+
+      for (var index in statement) {
+        if (index.Expanse) {
+          income += int.parse(index.Amount);
+
+        } else {
+          expense += int.parse(index.Amount);
+
+        }
+      }
+
+      return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color.fromARGB(255, 255, 255, 255),
+        ),
+        width: 400,
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Income",
+                    style: TextStyle(fontSize: 18, color: Colors.green)),
+                Text("$income", style: TextStyle(fontSize: 15,color: Colors.green))
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("Expense", style: TextStyle(fontSize: 18,color: Colors.red)),
+                Text("$expense", style: TextStyle(fontSize: 15,color: Colors.red))
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("total", style: TextStyle(fontSize: 18,color: Colors.blue)),
+                Text("${income - expense}", style: TextStyle(fontSize: 15,color: Colors.blue))
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(8, 8, 8, 2), child: top_card());
   }
 }
