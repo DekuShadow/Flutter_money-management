@@ -37,7 +37,7 @@ class _screntwoState extends State<screntwo> {
             }
             date1.sort();
             statement2 = date1.reversed.toList();
-            print(" test $statement2");
+            // print(" test $statement2");
             var remove_duplicate_day;
             for (var i = 0; i < statement2.length; i++) {
               if (remove_duplicate_day == statement2[i]) {
@@ -76,28 +76,33 @@ class _screntwoState extends State<screntwo> {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  width: 500,
-                  height: 120,
-                  child: PageView.builder(
-                    controller: PageController(
-                        initialPage: month - 1,
-                        viewportFraction: 0.999,
-                        keepPage: true),
-                    // itemCount: month_length,
-                    onPageChanged: (index) {
-                      setState(() {
-                        month = index + 1;
-                      });
-                    },
-                    itemBuilder: (context, index) {
-                      return page_topcard[index % page_topcard.length];
-                    },
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                  child: Container(
+                    width: 500,
+                    height: 120,
+                    child: PageView.builder(
+                      controller: PageController(
+                          initialPage: month - 1,
+                          viewportFraction: 0.999,
+                          keepPage: true),
+                      itemCount: page_topcard.length,
+                      onPageChanged: (index) {
+                        setState(() {
+                          month = index + 1;
+                          if(month == 13){
+                          }
+                        });
+                      },
+                      itemBuilder: (context, index) {
+                        return page_topcard[index/*  % page_topcard.length */];
+                      },
+                    ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                  child: Container(child: Text("< Month $month >")),
+                  child: Container(child: Text("< $month/2022 >")),
                 ),
                 Expanded(
                   child: Center(

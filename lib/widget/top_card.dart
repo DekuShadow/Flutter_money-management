@@ -150,7 +150,6 @@ class Screntwo_top_card extends StatelessWidget {
           expense += int.parse(index.Amount);
         }
         }
-
       }
 
       return Container(

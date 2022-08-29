@@ -37,83 +37,72 @@ class _MyTransactionState extends State<MyTransaction> {
         padding: const EdgeInsets.only(bottom: 12.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Container(
-            padding: EdgeInsets.all(15),
-            color: Colors.grey[100],
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.grey[500]),
-                        child: Center(
-                          child: Icon(
-                            Icons.attach_money_outlined,
-                            color: Colors.white,
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return Form_input(
+                  specify: false,
+                  statement: widget.statement,
+                );
+              }));
+            },
+            child: Container(
+              padding: EdgeInsets.all(15),
+              color: Color.fromARGB(255, 255, 255, 255),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Colors.grey[500]),
+                          child: Center(
+                            child: Icon(
+                              Icons.attach_money_outlined,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: 35,
-                        width: 100,
-                        child: Column(
-                          children: [
-                            Text(
-                              "${widget.date}",
-                              style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color.fromARGB(255, 255, 24, 120)),
-                            ),
-                            Text(widget.transactionName,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey[700],
-                                )),
-                          ],
+                        SizedBox(
+                          width: 10,
                         ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    (widget.expenseOrIncome == false ? '-' : '+') +
-                        '\$' +
-                        widget.money,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: widget.expenseOrIncome == false
-                          ? Colors.red
-                          : Colors.green,
+                        Container(
+                          height: 35,
+                          width: 100,
+                          child: Column(
+                            children: [
+                              Text(
+                                "${widget.date}",
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    color: Color.fromARGB(255, 255, 24, 120)),
+                              ),
+                              Text(widget.transactionName,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey[700],
+                                  )),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  GestureDetector(
-                    // When the child is tapped, show a snackbar.
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        return Form_input(
-                          specify: false,
-                          statement: widget.statement,
-                        );
-                      }));
-                    },
-                    // The custom button
-                    child: Container(
-                      padding: const EdgeInsets.all(12.0),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 127, 174, 197),
-                        borderRadius: BorderRadius.circular(8.0),
+                    Text(
+                      (widget.expenseOrIncome == false ? '-' : '+') +
+                          '\$' +
+                          widget.money,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: widget.expenseOrIncome == false
+                            ? Colors.red
+                            : Colors.green,
                       ),
-                      child: const Text("Edit"),
                     ),
-                  )
-                ]),
+                  ]),
+            ),
           ),
         ),
       );
@@ -147,31 +136,45 @@ class screntwo_Transaction extends StatelessWidget {
         String x = DateFormat("dd/MM/yyyy").format(DateTime.parse(index.date));
         if (date == x) {
           transaction.add(
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                    height: 15,
-                    width: 75,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [Text(index.Account)])),
-                SizedBox(
-                    height: 15,
-                    width: 75,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [Text(index.Category)])),
-                SizedBox(
-                    height: 15,
-                    width: 155,
-                    child: Row(mainAxisAlignment: mainalignment, children: [
-                      Text(
-                        index.Amount,
-                        style: TextStyle(color: color),
-                      )
-                    ]))
-              ],
+            GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return Form_input(
+                    specify: false,
+                    statement: index,
+                  );
+                }));
+              },
+              child: Container(
+                height: 40,
+                color: Color.fromARGB(255, 255, 255, 255),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        height: 15,
+                        width: 75,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [Text(index.Account)])),
+                    SizedBox(
+                        height: 15,
+                        width: 75,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [Text(index.Category)])),
+                    SizedBox(
+                        height: 15,
+                        width: 155,
+                        child: Row(mainAxisAlignment: mainalignment, children: [
+                          Text(
+                            (index.Expanse == false ? '-' : '+') + index.Amount,
+                            style: TextStyle(color: color),
+                          )
+                        ]))
+                  ],
+                ),
+              ),
             ),
           );
         }
@@ -183,7 +186,8 @@ class screntwo_Transaction extends StatelessWidget {
       int increase_sum = 0;
       int subtract_sum = 0;
       for (var index in statement) {
-        String datecheck = DateFormat("dd/MM/yyyy").format(DateTime.parse(index.date));
+        String datecheck =
+            DateFormat("dd/MM/yyyy").format(DateTime.parse(index.date));
         if (date == datecheck) {
           if (index.Expanse) {
             increase_sum += int.parse(index.Amount);
@@ -202,8 +206,7 @@ class screntwo_Transaction extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(boxShadow: [
             BoxShadow(
-                color: Color.fromARGB(255, 121, 201, 248),
-                offset: Offset(0.9, 0.9))
+                color: Color.fromARGB(255, 138, 221, 221), offset: Offset(0, 4))
           ], borderRadius: BorderRadius.circular(10), color: Colors.white),
           width: 400,
           child: Padding(
@@ -213,7 +216,9 @@ class screntwo_Transaction extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   boxShadow: [
-                    BoxShadow(color: Color.fromARGB(255, 163, 163, 163), offset: Offset(0, 0.5))
+                    BoxShadow(
+                        color: Color.fromARGB(255, 163, 163, 163),
+                        offset: Offset(0, 1))
                   ],
                 ),
                 child: Row(
@@ -229,11 +234,11 @@ class screntwo_Transaction extends StatelessWidget {
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("$increase_sum",
+                              Text("\$" + "${increase_sum}",
                                   style: TextStyle(
                                       fontSize: fontSizes,
                                       color: Colors.greenAccent)),
-                              Text("$subtract_sum",
+                              Text("\$" + "$subtract_sum",
                                   style: TextStyle(
                                       fontSize: fontSizes, color: Colors.red))
                             ]))

@@ -143,7 +143,6 @@ class _HomePageState extends State<HomePage> {
         builder: (BuildContext context, TransactionProviders provider,
             Widget? child) {
           List? BALANCE = provider.put_incomeANDexpense();
-
           chack2 = provider.transactions.length;
           if (provider.transactions.length == 0) {
             if (chack == true) {
@@ -152,153 +151,140 @@ class _HomePageState extends State<HomePage> {
             }
           }
           List<Transactions> statement = provider.transactions;
-          return Padding(
-            padding: const EdgeInsets.fromLTRB(20, 4, 20, 10),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TopNeuCard(
-                    balance: (BALANCE[0] - BALANCE[1]).toString(),
-                    income: BALANCE[0].toString(),
-                    expense: BALANCE[1].toString(),
-                  ),
-                  NOT_DATA(),
-                  Expanded(
-                    child: Container(
-                      child: Center(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
+          return Container(
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
+                  child: SafeArea(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TopNeuCard(
+                          balance: (BALANCE[0] - BALANCE[1]).toString(),
+                          income: BALANCE[0].toString(),
+                          expense: BALANCE[1].toString(),
+                        ),
+                        NOT_DATA(),
+                        Expanded(
+                          child: Container(
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  Expanded(
+                                    child: /* 0 == 1
+                                        ? LoadingCircle()
+                                        :  */
+                                        ListView.builder(
+                                            itemCount:
+                                                provider.transactions.length,
+                                            itemBuilder: (context, index) {
+                                              var data = statement[index];
+                                              return MyTransaction(
+                                                statement: data,
+                                                transactionName:
+                                                    data.Account.toString(),
+                                                money: data.Amount,
+                                                expenseOrIncome: data.Expanse,
+                                                date: DateFormat("dd/MM/yyyy")
+                                                    .format(DateTime.parse(
+                                                        data.date)),
+                                                key1: data.key,
+                                              );
+                                            }),
+                                  )
+                                  //   child: GoogleSheetsApi.loading == true
+                                  // ? LoadingCircle()
+                                  //       : ListView.builder(
+                                  //           itemCount:
+                                  //               GoogleSheetsApi.currentTransactions.length,
+                                  //           itemBuilder: (context, index) {
+                                  //             return MyTransaction(
+                                  //               transactionName: GoogleSheetsApi
+                                  //                   .currentTransactions[index][1],
+                                  //               money: GoogleSheetsApi
+                                  //                   .currentTransactions[index][3],
+                                  //               expenseOrIncome: GoogleSheetsApi
+                                  //                   .currentTransactions[index][5],
+                                  //               date: GoogleSheetsApi
+                                  //                   .currentTransactions[index][0],
+                                  //               Function: _newTransaction,
+                                  //             );
+                                  //           }),
+                                  // )
+                                ],
+                              ),
                             ),
-                            Expanded(
-                              child: /* 0 == 1
-                                  ? LoadingCircle()
-                                  :  */
-                                  ListView.builder(
-                                      itemCount: provider.transactions.length,
-                                      itemBuilder: (context, index) {
-                                        var data = statement[index];
-                                        return MyTransaction(
-                                          statement: data,
-                                          transactionName: data.Account.toString(),
-                                          money: data.Amount,
-                                          expenseOrIncome: data.Expanse,
-                                          date: DateFormat("dd/MM/yyyy")
-                                              .format(DateTime.parse(data.date)),
-                                          key1: data.key,
-                                        );
-                                      }),
-                            )
-                            //   child: GoogleSheetsApi.loading == true
-                            // ? LoadingCircle()
-                            //       : ListView.builder(
-                            //           itemCount:
-                            //               GoogleSheetsApi.currentTransactions.length,
-                            //           itemBuilder: (context, index) {
-                            //             return MyTransaction(
-                            //               transactionName: GoogleSheetsApi
-                            //                   .currentTransactions[index][1],
-                            //               money: GoogleSheetsApi
-                            //                   .currentTransactions[index][3],
-                            //               expenseOrIncome: GoogleSheetsApi
-                            //                   .currentTransactions[index][5],
-                            //               date: GoogleSheetsApi
-                            //                   .currentTransactions[index][0],
-                            //               Function: _newTransaction,
-                            //             );
-                            //           }),
-                            // )
-                          ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Stack(
+                    alignment: AlignmentDirectional.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Color.fromARGB(255, 195, 255, 215),
+                                    offset: Offset(0, -2),blurRadius: 3)
+                              ]),
+                          // color: Color.fromARGB(255, 255, 255, 255),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              TextButton(
+                                child: Icon(Icons.dynamic_form_sharp),
+                                onPressed: () {},
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              TextButton(
+                                style: ButtonStyle(),
+                                child: Icon(Icons.list),
+                                onPressed: () {
+                                  Alert_deletANDpushGoogleSheet(
+                                      context, statement);
+                                  print(statement.length);
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
+                      FloatingActionButton(
+                          child: Icon(Icons.add),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) {
+                                Transactions statement1 = Transactions();
+                                return Form_input(
+                                  specify: true,
+                                  statement: statement1,
+                                );
+                              }),
+                            );
+                            print(statement.length);
+                          }),
+                    ],
                   ),
-                  // OutlineButton(
-                  //   shape: StadiumBorder(),
-                  //   highlightedBorderColor: Color.fromARGB(255, 0, 255, 55),
-                  //   borderSide: BorderSide(
-                  //       width: 2, color: Color.fromARGB(255, 128, 249, 241)),
-                  //   child: Text("add"),
-                  //   onPressed: () {
-                  //     Navigator.push(
-                  //       context,
-                  //       MaterialPageRoute(builder: (context) {
-                  //         Transactions statement1 = Transactions();
-                  //         return Form_input(
-                  //           specify: true,
-                  //           statement: statement1,
-                  //         );
-                  //       }),
-                  //     );
-                  //     print(statrment.length);
-                  //   },
-                  // ),
-                  Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          boxShadow: [
-                            // BoxShadow(
-                            //     color: Color.fromARGB(255, 238, 0, 255),
-                            //     offset: Offset(4.0, 4.0),
-                            //     blurRadius: 15.0,
-                            //     spreadRadius: 1.0),
-                            BoxShadow(
-                                color: Color.fromARGB(255, 128, 128, 128),
-                                offset: Offset(0, 0),
-                                blurRadius: 1.0,
-                                spreadRadius: 1.0),
-                          ]),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          OutlineButton(
-                            shape: StadiumBorder(),
-                            highlightedBorderColor:
-                                Color.fromARGB(255, 0, 255, 38),
-                            borderSide: BorderSide(
-                                width: 2,
-                                color: Color.fromARGB(255, 60, 161, 255)),
-                            child: Text("ADD"),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) {
-                                  Transactions statement1 = Transactions();
-                                  return Form_input(
-                                    specify: true,
-                                    statement: statement1,
-                                  );
-                                }),
-                              );
-                              print(statement.length);
-                            },
-                          ),
-                          OutlineButton(
-                            shape: StadiumBorder(),
-                            highlightedBorderColor:
-                                Color.fromARGB(255, 0, 255, 38),
-                            borderSide: BorderSide(
-                                width: 2,
-                                color: Color.fromARGB(255, 60, 161, 255)),
-                            child: Icon(Icons.list),
-                            onPressed: () {
-                              Alert_deletANDpushGoogleSheet(context, statement);
-                              print(statement.length);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                )
+              ],
+              alignment: AlignmentDirectional.bottomEnd,
             ),
           );
         },

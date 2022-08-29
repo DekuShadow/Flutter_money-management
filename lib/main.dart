@@ -53,20 +53,20 @@ class _MyhomepageState extends State<Myhomepage> {
         child: Scaffold(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
           body: TabBarView(children: [HomePage(), screntwo()]),
-          bottomNavigationBar: TabBar(
-              indicatorColor: Color.fromARGB(255, 255, 20, 3),
-              indicatorWeight: 1,
-              tabs: [
-                Tab(
-                  // icon: Icon(Icons.home),
-                  child: Text(
-                    "home",
-                  ),
-                ),
-                Tab(
-                  child: Text("Trans."),
-                )
-              ]),
+          // bottomNavigationBar: TabBar(
+          //     indicatorColor: Color.fromARGB(255, 255, 20, 3),
+          //     indicatorWeight: 1,
+          //     tabs: [
+          //       Tab(
+          //         // icon: Icon(Icons.home),
+          //         child: Text(
+          //           "home",
+          //         ),
+          //       ),
+          //       Tab(
+          //         child: Text("Trans."),
+          //       )
+          //     ]),
         ));
   }
 }
