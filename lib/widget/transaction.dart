@@ -123,18 +123,24 @@ class _MyTransactionState extends State<MyTransaction> {
 
 class screntwo_Transaction extends StatelessWidget {
   final date;
+  int month;
   List<Transactions> statement;
-  screntwo_Transaction({Key? key, this.date, required this.statement})
+  screntwo_Transaction(
+      {Key? key, this.date, required this.statement, required this.month})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Color color;
+    double fontSizes = 15;
     List<Widget> addtransaction() {
       List<Widget> transaction = [];
+
       for (var index in statement) {
+        MainAxisAlignment mainalignment = MainAxisAlignment.end;
         if (index.Expanse) {
           color = Colors.greenAccent;
+          mainalignment = MainAxisAlignment.start;
         } else {
           color = Colors.red;
         }
@@ -159,14 +165,12 @@ class screntwo_Transaction extends StatelessWidget {
                 SizedBox(
                     height: 15,
                     width: 155,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            index.Amount,
-                            style: TextStyle(color: color),
-                          )
-                        ]))
+                    child: Row(mainAxisAlignment: mainalignment, children: [
+                      Text(
+                        index.Amount,
+                        style: TextStyle(color: color),
+                      )
+                    ]))
               ],
             ),
           );
@@ -175,56 +179,79 @@ class screntwo_Transaction extends StatelessWidget {
       return transaction;
     }
 
-    topcard() {
+    topcard_transection() {
       int increase_sum = 0;
       int subtract_sum = 0;
       for (var index in statement) {
-        if (index.Expanse) {
-          increase_sum += int.parse(index.Amount);
-        } else {
-          subtract_sum += int.parse(index.Amount);
+        String datecheck = DateFormat("dd/MM/yyyy").format(DateTime.parse(index.date));
+        if (date == datecheck) {
+          if (index.Expanse) {
+            increase_sum += int.parse(index.Amount);
+          } else {
+            subtract_sum += int.parse(index.Amount);
+          }
         }
       }
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "$date",
-            style: TextStyle(fontSize: 18),
-          ),
-          SizedBox(
-              height: 17,
-              width: 157,
-              child: Row(
+      int x = int.parse(date[3] + date[4]);
+      if (x != month) {
+        // print("Unwanted Month => "+ date[3] + date[4]);
+        return Container();
+      }
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 5),
+        child: Container(
+          decoration: BoxDecoration(boxShadow: [
+            BoxShadow(
+                color: Color.fromARGB(255, 121, 201, 248),
+                offset: Offset(0.9, 0.9))
+          ], borderRadius: BorderRadius.circular(10), color: Colors.white),
+          width: 400,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(color: Color.fromARGB(255, 163, 163, 163), offset: Offset(0, 0.5))
+                  ],
+                ),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text("$increase_sum", style: TextStyle(fontSize: 18,color: Colors.greenAccent)),
-                    Text("$subtract_sum",
-                        style: TextStyle(fontSize: 18, color: Colors.red))
-                  ]))
-        ],
+                    Text(
+                      "$date",
+                      style: TextStyle(fontSize: fontSizes),
+                    ),
+                    SizedBox(
+                        height: 17,
+                        width: 157,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("$increase_sum",
+                                  style: TextStyle(
+                                      fontSize: fontSizes,
+                                      color: Colors.greenAccent)),
+                              Text("$subtract_sum",
+                                  style: TextStyle(
+                                      fontSize: fontSizes, color: Colors.red))
+                            ]))
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Column(
+                children: addtransaction(),
+              )
+            ]),
+          ),
+        ),
       );
     }
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 8, 5),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10), color: Colors.white),
-        width: 400,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
-            topcard(),
-            SizedBox(
-              height: 5,
-            ),
-            Column(
-              children: addtransaction(),
-            )
-          ]),
-        ),
-      ),
-    );
+    return topcard_transection();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:expensetracker/db/transactionDB.dart';
 import 'package:expensetracker/models/transactions.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TopNeuCard extends StatelessWidget {
   final String balance;
@@ -110,21 +111,20 @@ class TopNeuCard extends StatelessWidget {
           ),
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 255, 255, 255),
-          // boxShadow: [
-          //   BoxShadow(
-          //       color: Color.fromARGB(255, 137, 255, 237),
-          //       offset: Offset(4.0, 4.0),
-          //       blurRadius: 15.0,
-          //       spreadRadius: 1.0),
-          //   BoxShadow(
-          //       color: Color.fromARGB(255, 104, 164, 249),
-          //       offset: Offset(-4.0, -4.0),
-          //       blurRadius: 15.0,
-          //       spreadRadius: 1.0),
-          // ]
-        ),
+            borderRadius: BorderRadius.circular(15),
+            color: Color.fromARGB(255, 255, 255, 255),
+            boxShadow: [
+              BoxShadow(
+                  color: Color.fromARGB(255, 137, 255, 237),
+                  offset: Offset(4.0, 4.0),
+                  blurRadius: 15.0,
+                  spreadRadius: 1.0),
+              BoxShadow(
+                  color: Color.fromARGB(255, 104, 164, 249),
+                  offset: Offset(-4.0, -4.0),
+                  blurRadius: 15.0,
+                  spreadRadius: 1.0),
+            ]),
       ),
     );
   }
@@ -132,7 +132,8 @@ class TopNeuCard extends StatelessWidget {
 
 class Screntwo_top_card extends StatelessWidget {
   List<Transactions> statement;
-  Screntwo_top_card({required this.statement});
+  int month;
+  Screntwo_top_card({required this.statement, required this.month});
 
   @override
   Widget build(BuildContext context) {
@@ -141,45 +142,64 @@ class Screntwo_top_card extends StatelessWidget {
       int expense = 0;
 
       for (var index in statement) {
-        if (index.Expanse) {
+        String dateCheck = DateFormat("dd/MM/yyyy").format(DateTime.parse(index.date));
+        if (int.parse(dateCheck[3]+dateCheck[4])== month) {
+                  if (index.Expanse) {
           income += int.parse(index.Amount);
-
         } else {
           expense += int.parse(index.Amount);
-
         }
+        }
+
       }
 
       return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+                color: Color.fromARGB(255, 138, 221, 221),
+                offset: Offset(0, 3),
+                blurRadius: 5.0,
+                spreadRadius: 1.0),
+          ],
+          borderRadius: BorderRadius.circular(20),
           color: Color.fromARGB(255, 255, 255, 255),
         ),
         width: 400,
-        height: 60,
-        child: Row(
+        height: 100,
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Text("Income",
-                    style: TextStyle(fontSize: 18, color: Colors.green)),
-                Text("$income", style: TextStyle(fontSize: 15,color: Colors.green))
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Expense", style: TextStyle(fontSize: 18,color: Colors.red)),
-                Text("$expense", style: TextStyle(fontSize: 15,color: Colors.red))
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("total", style: TextStyle(fontSize: 18,color: Colors.blue)),
-                Text("${income - expense}", style: TextStyle(fontSize: 15,color: Colors.blue))
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Income",
+                        style: TextStyle(fontSize: 18, color: Colors.green)),
+                    Text("$income",
+                        style: TextStyle(fontSize: 15, color: Colors.green))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Expense",
+                        style: TextStyle(fontSize: 18, color: Colors.red)),
+                    Text("$expense",
+                        style: TextStyle(fontSize: 15, color: Colors.red))
+                  ],
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("total",
+                        style: TextStyle(fontSize: 18, color: Colors.blue)),
+                    Text("${income - expense}",
+                        style: TextStyle(fontSize: 15, color: Colors.blue))
+                  ],
+                ),
               ],
             ),
           ],
@@ -188,6 +208,6 @@ class Screntwo_top_card extends StatelessWidget {
     }
 
     return Padding(
-        padding: const EdgeInsets.fromLTRB(8, 8, 8, 2), child: top_card());
+        padding: const EdgeInsets.fromLTRB(0, 5, 0, 10), child: top_card());
   }
 }

@@ -1,4 +1,4 @@
-import 'package:expensetracker/page/screntwo.dart';
+import 'package:expensetracker/page/screentwo.dart';
 import 'package:expensetracker/providers/transaction_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +27,9 @@ class MyApp extends StatelessWidget {
         })
       ],
       child: MaterialApp(
+        theme: ThemeData(
+          primarySwatch: Colors.lightGreen,
+        ),
         debugShowCheckedModeBanner: false,
         home: Myhomepage(),
       ),
@@ -44,14 +47,26 @@ class Myhomepage extends StatefulWidget {
 class _MyhomepageState extends State<Myhomepage> {
   @override
   Widget build(BuildContext context) {
+    // return HomePage();
     return DefaultTabController(
         length: 2,
         child: Scaffold(
-          body: TabBarView(children: [HomePage(), screntwo()])
-          ,
-          bottomNavigationBar: TabBar(indicatorColor: Colors.red, indicatorWeight: 1, tabs: [
-            Tab(child: Text("home",style: TextStyle(color: Color.fromARGB(31, 24, 24, 24)),),),Tab(child: Text("Scran"),)
-          ]),
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          body: TabBarView(children: [HomePage(), screntwo()]),
+          bottomNavigationBar: TabBar(
+              indicatorColor: Color.fromARGB(255, 255, 20, 3),
+              indicatorWeight: 1,
+              tabs: [
+                Tab(
+                  // icon: Icon(Icons.home),
+                  child: Text(
+                    "home",
+                  ),
+                ),
+                Tab(
+                  child: Text("Trans."),
+                )
+              ]),
         ));
   }
 }

@@ -144,14 +144,6 @@ class _HomePageState extends State<HomePage> {
             Widget? child) {
           List? BALANCE = provider.put_incomeANDexpense();
 
-          final page = List.generate(
-              5,
-              (index) => TopNeuCard(
-                    balance: (BALANCE[0] - BALANCE[1]).toString(),
-                    income: BALANCE[0].toString(),
-                    expense: BALANCE[1].toString(),
-                  ));
-
           chack2 = provider.transactions.length;
           if (provider.transactions.length == 0) {
             if (chack == true) {
@@ -173,11 +165,6 @@ class _HomePageState extends State<HomePage> {
                     income: BALANCE[0].toString(),
                     expense: BALANCE[1].toString(),
                   ),
-                  // TopNeuCard(
-                  //   balance: (BALANCE[0] - BALANCE[1]).toString(),
-                  //   income: BALANCE[0].toString(),
-                  //   expense: BALANCE[1].toString(),
-                  // ),
                   NOT_DATA(),
                   Expanded(
                     child: Container(
@@ -194,17 +181,15 @@ class _HomePageState extends State<HomePage> {
                                   ListView.builder(
                                       itemCount: provider.transactions.length,
                                       itemBuilder: (context, index) {
-                                        var x = statement[index];
-                                        DateTime xx = DateTime.parse(x.date);
-                                        print("${xx.day}");
+                                        var data = statement[index];
                                         return MyTransaction(
-                                          statement: x,
-                                          transactionName: x.Account.toString(),
-                                          money: x.Amount,
-                                          expenseOrIncome: x.Expanse,
+                                          statement: data,
+                                          transactionName: data.Account.toString(),
+                                          money: data.Amount,
+                                          expenseOrIncome: data.Expanse,
                                           date: DateFormat("dd/MM/yyyy")
-                                              .format(DateTime.parse(x.date)),
-                                          key1: x.key,
+                                              .format(DateTime.parse(data.date)),
+                                          key1: data.key,
                                         );
                                       }),
                             )
