@@ -201,7 +201,7 @@ class _Form_inputState extends State<Form_input> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      maxLength: 11,
+                      maxLength: 12,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Account',
@@ -227,7 +227,7 @@ class _Form_inputState extends State<Form_input> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      maxLength: 11,
+                      maxLength: 12,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Category',
@@ -252,11 +252,13 @@ class _Form_inputState extends State<Form_input> {
               child: Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: TextFormField(
+                      maxLength: 30,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Note',
                       ),
+                      validator: (text) {},
                       controller: _textcontrollerNote,
                     ),
                   ),

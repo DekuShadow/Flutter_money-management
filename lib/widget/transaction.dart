@@ -12,6 +12,7 @@ class MyTransaction extends StatefulWidget {
   final String money;
   final bool expenseOrIncome;
   final String date;
+  final String note;
   final key1;
   final Function;
 
@@ -21,6 +22,7 @@ class MyTransaction extends StatefulWidget {
       required this.money,
       required this.expenseOrIncome,
       required this.date,
+      required this.note,
       this.key1,
       this.Function});
 
@@ -87,6 +89,16 @@ class _MyTransactionState extends State<MyTransaction> {
                             ],
                           ),
                         ),
+                        Container(
+                          height: 35,
+                          width: 120,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(widget.note),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                     Text(

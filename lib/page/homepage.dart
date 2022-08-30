@@ -155,17 +155,25 @@ class _HomePageState extends State<HomePage> {
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
+                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                   child: SafeArea(
                     child: Column(
                       children: [
-                        SizedBox(
-                          height: 10,
-                        ),
                         TopNeuCard(
                           balance: (BALANCE[0] - BALANCE[1]).toString(),
                           income: BALANCE[0].toString(),
                           expense: BALANCE[1].toString(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(DateFormat("dd/MM/yyyy")
+                                  .format(DateTime.now())),
+                              Text("List ${statement.length}")
+                            ],
+                          ),
                         ),
                         NOT_DATA(),
                         Expanded(
@@ -174,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: 20,
+                                    height: 10,
                                   ),
                                   Expanded(
                                     child: /* 0 == 1
@@ -194,6 +202,7 @@ class _HomePageState extends State<HomePage> {
                                                 date: DateFormat("dd/MM/yyyy")
                                                     .format(DateTime.parse(
                                                         data.date)),
+                                                note: data.Note,
                                                 key1: data.key,
                                               );
                                             }),
@@ -239,7 +248,8 @@ class _HomePageState extends State<HomePage> {
                               boxShadow: [
                                 BoxShadow(
                                     color: Color.fromARGB(255, 195, 255, 215),
-                                    offset: Offset(0, -2),blurRadius: 3)
+                                    offset: Offset(0, -2),
+                                    blurRadius: 3)
                               ]),
                           // color: Color.fromARGB(255, 255, 255, 255),
                           child: Row(

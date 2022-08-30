@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         theme: ThemeData(
-          primarySwatch: Colors.lightGreen,
+          primarySwatch: Colors.green,
         ),
         debugShowCheckedModeBanner: false,
         home: Myhomepage(),
