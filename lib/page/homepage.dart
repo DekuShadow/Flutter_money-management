@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:expensetracker/db/transactionDB.dart';
 import 'package:expensetracker/models/transactions.dart';
 import 'package:expensetracker/page/Form_input.dart';
+import 'package:expensetracker/page/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart';
@@ -34,88 +35,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Alert(context, statement, chackMessage) {
-    var x;
-    var message;
-    if (chackMessage) {
-      message = "Do you want to delete all data?";
-    } else {
-      message = "Would you like to send your information to Google Sheet?";
-    }
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Are you sure"),
-            content: Container(child: Text(message)),
-            actions: [
-              OutlineButton(
-                  child: Text("YES"),
-                  onPressed: () async {
-                    if (chackMessage) {
-                      Provider.of<TransactionProviders>(context, listen: false)
-                          .delete_data(null);
-                    } else {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: LoadingCircle(),
-                            );
-                          });
-                      await GoogleSheetsApi.insert(statement);
-                      Navigator.pop(context);
-                    }
-                    Navigator.pop(context);
-                  }),
-              OutlineButton(
-                  child: Text("NO"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  })
-            ],
-          );
-        });
-  }
-
-  Alert_deletANDpushGoogleSheet(context, statement) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Center(child: Text("LIST")),
-            content: Container(
-              height: 100,
-              child: Column(
-                children: [
-                  OutlineButton(
-                    shape: StadiumBorder(),
-                    highlightedBorderColor: Color.fromARGB(255, 255, 9, 247),
-                    borderSide: BorderSide(
-                        width: 2, color: Color.fromARGB(255, 255, 0, 0)),
-                    child: Text("DELETE_ALL"),
-                    onPressed: () {
-                      Alert(context, statement, true);
-                    },
-                  ),
-                  OutlineButton(
-                    shape: StadiumBorder(),
-                    highlightedBorderColor: Color.fromARGB(255, 44, 242, 199),
-                    borderSide: BorderSide(
-                        width: 2, color: Color.fromARGB(255, 128, 249, 241)),
-                    child: Text("PUSH_SHEET"),
-                    onPressed: () {
-                      Alert(context, statement, false);
-                      print(statement.length);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        });
-  }
-
   NOT_DATA() {
     if (chack2 == 0) {
       return Padding(
@@ -132,6 +51,121 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Alert(statement, chackMessage) {
+      var x;
+      var message;
+      if (chackMessage) {
+        message = "Do you want to delete all data?";
+      } else {
+        message = "Would you like to send your information to Google Sheet?";
+      }
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Are you sure"),
+              content: Container(child: Text(message)),
+              actions: [
+                OutlinedButton(
+                    child: Text("YES"),
+                    onPressed: () async {
+                      if (chackMessage) {
+                        Provider.of<TransactionProviders>(context,
+                                listen: false)
+                            .delete_data(null);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: LoadingCircle(),
+                              );
+                            });
+                        await GoogleSheetsApi.insert(statement);
+                        Navigator.pop(context);
+                      }
+                      Navigator.pop(context);
+                    }),
+                OutlinedButton(
+                    child: Text("NO"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    })
+              ],
+            );
+          });
+    }
+
+    Alert_deletANDpushGoogleSheet(statement) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Center(child: Text("LIST")),
+              content: Container(
+                height: 100,
+                child: Column(
+                  children: [
+                    OutlinedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            StadiumBorder()),
+                        side: MaterialStateProperty.resolveWith<BorderSide>(
+                            (Set<MaterialState> states) {
+                          final Color color =
+                              states.contains(MaterialState.pressed)
+                                  ? Color.fromARGB(255, 71, 255, 24)
+                                  : Color.fromARGB(255, 222, 112, 255);
+                          return BorderSide(color: color, width: 2);
+                        }),
+                      ),
+                      child: Text("DELETE_ALL"),
+                      onPressed: () {
+                        Alert(statement, true);
+                      },
+                    ),
+                    OutlinedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            StadiumBorder()),
+                        side: MaterialStateProperty.resolveWith<BorderSide>(
+                            (Set<MaterialState> states) {
+                          final Color color =
+                              states.contains(MaterialState.pressed)
+                                  ? Color.fromARGB(255, 71, 255, 24)
+                                  : Color.fromARGB(255, 222, 112, 255);
+                          return BorderSide(color: color, width: 2);
+                        }),
+                      ),
+                      child: Text("PUSH_SHEET"),
+                      onPressed: () {
+                        Alert(statement, false);
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            );
+          });
+    }
+
+    List<Widget> testwidget = [
+      Container(
+        height: 15,
+        width: 10,
+        color: Color.fromARGB(255, 255, 255, 255),
+      ),
+    ];
+    for (var i = 0; i < 9; i++) {
+      testwidget.add(Padding(
+        padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+        child: Container(
+          height: 15,
+          width: 10,
+          color: Color.fromARGB(255, 255, 255, 255),
+        ),
+      ));
+    }
     // start loading until the data arrives
     if (GoogleSheetsApi.loading == true && timerHasStarted == false) {
       startLoading();
@@ -146,97 +180,138 @@ class _HomePageState extends State<HomePage> {
           chack2 = provider.transactions.length;
           if (provider.transactions.length == 0) {
             if (chack == true) {
-              provider.Search_Data();
+              provider.Search_Data("Money_management");
               chack = false;
             }
           }
           List<Transactions> statement = provider.transactions;
-          return Container(
-            child: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                  child: SafeArea(
-                    child: Column(
-                      children: [
-                        TopNeuCard(
-                          balance: (BALANCE[0] - BALANCE[1]).toString(),
-                          income: BALANCE[0].toString(),
-                          expense: BALANCE[1].toString(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return SafeArea(
+            child: Container(
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xFFDBCCFF),
+                            gradient: LinearGradient(
+                              begin: Alignment.bottomCenter,
+                              end: Alignment(0, -1),
+                              colors: <Color>[
+                                Color.fromARGB(255, 218, 202, 255),
+                                Color.fromARGB(255, 204, 182, 255),
+                                Color.fromARGB(255, 184, 151, 255),
+                                Color.fromARGB(255, 162, 122, 255),
+                                Color.fromARGB(255, 150, 106, 255),
+                                Color.fromARGB(255, 143, 95, 255),
+                                Color.fromARGB(255, 122, 65, 255),
+                                Color.fromARGB(255, 104, 40, 255),
+                              ], // Gradient from https://learnui.design/tools/gradient-generator.html
+                              tileMode: TileMode.mirror,
+                            ),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(30),
+                                bottomRight: Radius.circular(30))),
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          child: Column(
                             children: [
-                              Text(DateFormat("dd/MM/yyyy")
-                                  .format(DateTime.now())),
-                              Text("List ${statement.length}")
+                              TopNeuCard(
+                                balance: (BALANCE[0] - BALANCE[1]).toString(),
+                                income: BALANCE[0].toString(),
+                                expense: BALANCE[1].toString(),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(DateFormat("dd/MM/yyyy")
+                                        .format(DateTime.now())),
+                                    Text("List ${statement.length}")
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                         ),
-                        NOT_DATA(),
-                        Expanded(
-                          child: Container(
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  SizedBox(
-                                    height: 10,
-                                  ),
-                                  Expanded(
-                                    child: /* 0 == 1
-                                        ? LoadingCircle()
-                                        :  */
-                                        ListView.builder(
-                                            itemCount:
-                                                provider.transactions.length,
-                                            itemBuilder: (context, index) {
-                                              var data = statement[index];
-                                              return MyTransaction(
-                                                statement: data,
-                                                transactionName:
-                                                    data.Account.toString(),
-                                                money: data.Amount,
-                                                expenseOrIncome: data.Expanse,
-                                                date: DateFormat("dd/MM/yyyy")
-                                                    .format(DateTime.parse(
-                                                        data.date)),
-                                                note: data.Note,
-                                                key1: data.key,
-                                              );
-                                            }),
-                                  )
-                                  //   child: GoogleSheetsApi.loading == true
-                                  // ? LoadingCircle()
-                                  //       : ListView.builder(
-                                  //           itemCount:
-                                  //               GoogleSheetsApi.currentTransactions.length,
-                                  //           itemBuilder: (context, index) {
-                                  //             return MyTransaction(
-                                  //               transactionName: GoogleSheetsApi
-                                  //                   .currentTransactions[index][1],
-                                  //               money: GoogleSheetsApi
-                                  //                   .currentTransactions[index][3],
-                                  //               expenseOrIncome: GoogleSheetsApi
-                                  //                   .currentTransactions[index][5],
-                                  //               date: GoogleSheetsApi
-                                  //                   .currentTransactions[index][0],
-                                  //               Function: _newTransaction,
-                                  //             );
-                                  //           }),
-                                  // )
-                                ],
-                              ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Color(0xffD4F3FF),
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30))),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                            child: Column(
+                              children: [
+                                NOT_DATA(),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Expanded(
+                                  child: /* 0 == 1
+                                            ? LoadingCircle()
+                                            :  */
+                                      ListView.builder(
+                                          itemCount:
+                                              provider.transactions.length,
+                                          itemBuilder: (context, index) {
+                                            var data = statement[index];
+                                            return MyTransaction(
+                                              statement: data,
+                                              transactionName:
+                                                  data.Account.toString(),
+                                              money: data.Amount,
+                                              expenseOrIncome: data.Expanse,
+                                              date: DateFormat("dd/MM/yyyy")
+                                                  .format(DateTime.parse(
+                                                      data.date)),
+                                              note: data.Note,
+                                              key1: data.key,
+                                            );
+                                          }),
+                                )
+                                //   child: GoogleSheetsApi.loading == true
+                                // ? LoadingCircle()
+                                //       : ListView.builder(
+                                //           itemCount:
+                                //               GoogleSheetsApi.currentTransactions.length,
+                                //           itemBuilder: (context, index) {
+                                //             return MyTransaction(
+                                //               transactionName: GoogleSheetsApi
+                                //                   .currentTransactions[index][1],
+                                //               money: GoogleSheetsApi
+                                //                   .currentTransactions[index][3],
+                                //               expenseOrIncome: GoogleSheetsApi
+                                //                   .currentTransactions[index][5],
+                                //               date: GoogleSheetsApi
+                                //                   .currentTransactions[index][0],
+                                //               Function: _newTransaction,
+                                //             );
+                                //           }),
+                                // )
+                              ],
                             ),
                           ),
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 219,
+                    child: Container(
+                      // color: Colors.red,
+                      child: Row(
+                        children: testwidget,
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
-                  child: Stack(
+                  Stack(
                     alignment: AlignmentDirectional.center,
                     children: [
                       Padding(
@@ -247,7 +322,7 @@ class _HomePageState extends State<HomePage> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                    color: Color.fromARGB(255, 195, 255, 215),
+                                    color: Color(0xFFDBCCFF),
                                     offset: Offset(0, -2),
                                     blurRadius: 3)
                               ]),
@@ -256,8 +331,16 @@ class _HomePageState extends State<HomePage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               TextButton(
-                                child: Icon(Icons.dynamic_form_sharp),
-                                onPressed: () {},
+                                child: Icon(Icons.settings),
+                                onPressed: () {
+                                  Provider.of<TransactionProviders>(context,
+                                          listen: false)
+                                      .provider_setgoogleSheet();
+                                  // Navigator.push(context,
+                                  //     MaterialPageRoute(builder: (context) {
+                                  //   return Settings();
+                                  // }));
+                                },
                               ),
                               SizedBox(
                                 width: 10,
@@ -266,8 +349,7 @@ class _HomePageState extends State<HomePage> {
                                 style: ButtonStyle(),
                                 child: Icon(Icons.list),
                                 onPressed: () {
-                                  Alert_deletANDpushGoogleSheet(
-                                      context, statement);
+                                  Alert_deletANDpushGoogleSheet(statement);
                                   print(statement.length);
                                 },
                               ),
@@ -292,9 +374,9 @@ class _HomePageState extends State<HomePage> {
                           }),
                     ],
                   ),
-                )
-              ],
-              alignment: AlignmentDirectional.bottomEnd,
+                ],
+                alignment: AlignmentDirectional.bottomCenter,
+              ),
             ),
           );
         },

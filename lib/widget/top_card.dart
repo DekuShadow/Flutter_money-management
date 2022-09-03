@@ -67,7 +67,7 @@ class TopNeuCard extends StatelessWidget {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Text('\$' + income,
+                                        Text('฿' + income,
                                             style: TextStyle(
                                                 color: Colors.grey[600],
                                                 fontWeight: FontWeight.bold)),
@@ -103,7 +103,7 @@ class TopNeuCard extends StatelessWidget {
                                         SizedBox(
                                           height: 5,
                                         ),
-                                        Text('\$' + expense,
+                                        Text('฿' + expense,
                                             style: TextStyle(
                                                 color: Colors.grey[600],
                                                 fontWeight: FontWeight.bold)),
@@ -134,8 +134,8 @@ class TopNeuCard extends StatelessWidget {
                         ], // Gradient from https://learnui.design/tools/gradient-generator.html
                         tileMode: TileMode.mirror,
                       ), */
-                      color: Color(0xffC2F8C9),
-                      /* boxShadow: [
+                      color: Color(0xffE6DCFF),
+                      boxShadow: [
                           BoxShadow(
                               color: Color.fromARGB(255, 137, 255, 237),
                               offset: Offset(4.0, 4.0),
@@ -146,7 +146,7 @@ class TopNeuCard extends StatelessWidget {
                               offset: Offset(-4.0, -4.0),
                               blurRadius: 15.0,
                               spreadRadius: 1.0),
-                        ] */
+                        ]
                     ),
                   ),
                   Positioned(

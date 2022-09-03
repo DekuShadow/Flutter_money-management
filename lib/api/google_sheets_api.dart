@@ -6,6 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:gsheets/gsheets.dart';
 
 class GoogleSheetsApi with ChangeNotifier {
+  final sheetid;
+  final credentials;
+  GoogleSheetsApi({this.sheetid , this.credentials});
   // create credentials
   static const _credentials = r'''
 {

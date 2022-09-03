@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:expensetracker/api/google_sheets_api.dart';
 import 'package:expensetracker/models/transactions.dart';
 import 'package:expensetracker/providers/transaction_providers.dart';
@@ -65,11 +67,18 @@ class _Form_inputState extends State<Form_input> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            OutlineButton(
-                shape: StadiumBorder(),
-                highlightedBorderColor: Colors.blue,
-                borderSide: BorderSide(
-                    width: 2, color: Color.fromARGB(255, 96, 238, 134)),
+            OutlinedButton(
+                style: ButtonStyle(
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                      StadiumBorder()),
+                  side: MaterialStateProperty.resolveWith<BorderSide>(
+                      (Set<MaterialState> states) {
+                    final Color color = states.contains(MaterialState.pressed)
+                        ? Color.fromARGB(255, 71, 255, 24)
+                        : Color.fromARGB(255, 222, 112, 255);
+                    return BorderSide(color: color, width: 2);
+                  }),
+                ),
                 child: Icon(Icons.add_circle_sharp),
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
@@ -84,11 +93,18 @@ class _Form_inputState extends State<Form_input> {
     } else {
       edit_and_delet.add(Row(
         children: [
-          OutlineButton(
-              shape: StadiumBorder(),
-              highlightedBorderColor: Colors.blue,
-              borderSide: BorderSide(
-                  width: 2, color: Color.fromARGB(255, 96, 238, 134)),
+          OutlinedButton(
+              style: ButtonStyle(
+                shape:
+                    MaterialStateProperty.all<OutlinedBorder>(StadiumBorder()),
+                side: MaterialStateProperty.resolveWith<BorderSide>(
+                    (Set<MaterialState> states) {
+                  final Color color = states.contains(MaterialState.pressed)
+                      ? Color.fromARGB(255, 71, 255, 24)
+                        : Color.fromARGB(255, 222, 112, 255);
+                  return BorderSide(color: color, width: 2);
+                }),
+              ),
               child: Icon(Icons.save),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -100,11 +116,18 @@ class _Form_inputState extends State<Form_input> {
           SizedBox(
             width: 20,
           ),
-          OutlineButton(
-              shape: StadiumBorder(),
-              highlightedBorderColor: Colors.blue,
-              borderSide: BorderSide(
-                  width: 2, color: Color.fromARGB(255, 96, 238, 134)),
+          OutlinedButton(
+              style: ButtonStyle(
+                shape:
+                    MaterialStateProperty.all<OutlinedBorder>(StadiumBorder()),
+                side: MaterialStateProperty.resolveWith<BorderSide>(
+                    (Set<MaterialState> states) {
+                  final Color color = states.contains(MaterialState.pressed)
+                    ? Color.fromARGB(255, 71, 255, 24)
+                        : Color.fromARGB(255, 222, 112, 255);
+                  return BorderSide(color: color, width: 2);
+                }),
+              ),
               child: Icon(Icons.delete),
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
@@ -201,7 +224,7 @@ class _Form_inputState extends State<Form_input> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      maxLength: 12,
+                      maxLength: 20,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Account',
@@ -227,7 +250,7 @@ class _Form_inputState extends State<Form_input> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      maxLength: 12,
+                      maxLength: 30,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Category',
@@ -253,7 +276,8 @@ class _Form_inputState extends State<Form_input> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      maxLength: 30,
+                      maxLength: 300,
+                      maxLines: 5,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: 'Note',

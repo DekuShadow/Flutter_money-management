@@ -49,7 +49,7 @@ class _MyTransactionState extends State<MyTransaction> {
               }));
             },
             child: Container(
-              padding: EdgeInsets.all(15),
+              padding: EdgeInsets.fromLTRB(10, 15, 10, 15),
               color: Color.fromARGB(255, 255, 255, 255),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,21 +57,6 @@ class _MyTransactionState extends State<MyTransaction> {
                     Row(
                       children: [
                         Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.grey[500]),
-                          child: Center(
-                            child: Icon(
-                              Icons.attach_money_outlined,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Container(
-                          height: 35,
                           width: 100,
                           child: Column(
                             children: [
@@ -90,27 +75,42 @@ class _MyTransactionState extends State<MyTransaction> {
                           ),
                         ),
                         Container(
-                          height: 35,
-                          width: 120,
+                          // height: 35,
+                          width: 100,
+                          // color: Colors.red,
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text(widget.note),
+                              Text(widget.statement.Category),
+                              SizedBox(
+                                height: 2,
+                              ),
+                              Text(
+                                widget.note,
+                                style: TextStyle(fontSize: 10),
+                              ),
                             ],
                           ),
                         )
                       ],
                     ),
-                    Text(
-                      (widget.expenseOrIncome == false ? '-' : '+') +
-                          '\$' +
-                          widget.money,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: widget.expenseOrIncome == false
-                            ? Colors.red
-                            : Colors.green,
+                    Container(
+                      width: 105,
+                      // color: Color.fromARGB(14, 255, 151, 143),
+                      child: Column(
+                        children: [
+                          Text(
+                            /* (widget.expenseOrIncome == false ? '-' : '+') + */
+                            '฿' + widget.money,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: widget.expenseOrIncome == false
+                                  ? Colors.red
+                                  : Colors.green,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ]),
@@ -138,10 +138,8 @@ class screntwo_Transaction extends StatelessWidget {
       List<Widget> transaction = [];
 
       for (var index in statement) {
-        MainAxisAlignment mainalignment = MainAxisAlignment.end;
         if (index.Expanse) {
           color = Colors.greenAccent;
-          mainalignment = MainAxisAlignment.start;
         } else {
           color = Colors.red;
         }
@@ -163,27 +161,30 @@ class screntwo_Transaction extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                        height: 15,
-                        width: 75,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Container(
+                        // height: 15,
+                        width: 95,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [Text(index.Account)])),
-                    SizedBox(
-                        height: 15,
-                        width: 75,
-                        child: Row(
+                    Container(
+                        // height: 15,
+                        width: 100,
+                        child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [Text(index.Category)])),
-                    SizedBox(
-                        height: 15,
-                        width: 155,
-                        child: Row(mainAxisAlignment: mainalignment, children: [
-                          Text(
-                            (index.Expanse == false ? '-' : '+') + index.Amount,
-                            style: TextStyle(color: color),
-                          )
-                        ]))
+                    Container(
+                        // height: 15,
+                        width: 110,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                (index.Expanse == false ? '-' : '+') +
+                                    index.Amount,
+                                style: TextStyle(color: color),
+                              )
+                            ]))
                   ],
                 ),
               ),
@@ -220,9 +221,9 @@ class screntwo_Transaction extends StatelessWidget {
             BoxShadow(
                 color: Color.fromARGB(255, 138, 221, 221), offset: Offset(0, 4))
           ], borderRadius: BorderRadius.circular(10), color: Colors.white),
-          width: 400,
+          // width: 400,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(children: [
               Container(
                 decoration: BoxDecoration(
@@ -233,28 +234,22 @@ class screntwo_Transaction extends StatelessWidget {
                         offset: Offset(0, 1))
                   ],
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "$date",
-                      style: TextStyle(fontSize: fontSizes),
-                    ),
-                    SizedBox(
-                        height: 17,
-                        width: 157,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("\$" + "${increase_sum}",
-                                  style: TextStyle(
-                                      fontSize: fontSizes,
-                                      color: Colors.greenAccent)),
-                              Text("\$" + "$subtract_sum",
-                                  style: TextStyle(
-                                      fontSize: fontSizes, color: Colors.red))
-                            ]))
-                  ],
+                child: Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "$date",
+                        style: TextStyle(fontSize: fontSizes),
+                      ),
+                      Text("\$" + "${increase_sum}",
+                          style: TextStyle(
+                              fontSize: fontSizes, color: Colors.greenAccent)),
+                      Text("\$" + "$subtract_sum",
+                          style: TextStyle(
+                              fontSize: fontSizes, color: Colors.red)),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(

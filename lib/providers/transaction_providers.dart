@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:expensetracker/api/google_sheets_api.dart';
 import 'package:expensetracker/db/transactionDB.dart';
 import 'package:expensetracker/models/transactions.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +15,7 @@ class TransactionProviders with ChangeNotifier {
     //     Note: "Night fool",
     //     Amount: "200"),
   ];
+  GoogleSheetsApi googlesheet = GoogleSheetsApi();
 
   List put_incomeANDexpense() {
     List package = [];
@@ -37,16 +39,21 @@ class TransactionProviders with ChangeNotifier {
     return transactions;
   }
 
-  Search_Data() async {
+  Search_Data(stores) async {
     var db = await transactionDB(dbName: "Transaction.db");
-    transactions = await db.loadALLdata();
-    for (var index in transactions) {
-      // print(
-      //     "Account => ${index.Account} Category => ${index.Category} Note => ${index.Note} Amount =>${index.Amount} Key => ${index.key.toString()}");
+    if (stores == "Money_management") {
+      transactions = await db.loadALLdata(stores);
+      notifyListeners();
+      print("Serch_data successfully");
+      return transactions;
     }
-    notifyListeners();
-    print("Serch_data successfully");
-    return transactions;
+    if (stores == "google_sheet") {
+      googlesheet = await db.loadALLdata(stores);
+      notifyListeners();
+      print("Serch_data Google sheet successfully");
+      return googlesheet;
+    }
+    
   }
 
   Add_data(Transactions statement) async {
@@ -58,8 +65,8 @@ class TransactionProviders with ChangeNotifier {
     //     Category: "fool",
     //     Note: "Night fool",
     //     Amount: "200");
-    await db.add_database(statement);
-    Search_Data();
+    await db.add_database(statement, "Money_management");
+    Search_Data("Money_management");
   }
 
   update_data(Transactions statement) async {
@@ -72,18 +79,19 @@ class TransactionProviders with ChangeNotifier {
     //     Note: "Night foollll",
     //     Amount: "2000",
     //     key: 7);
-    await db.update_database(statement);
-    Search_Data();
+    await db.update_database(statement, "Money_management");
+    Search_Data("Money_management");
   }
 
   delete_data(specify) async {
     var db = await transactionDB(dbName: "Transaction.db");
-    await db.delete_database(specify);
-    Search_Data();
+    await db.delete_database(specify, "Money_management");
+    Search_Data("Money_management");
   }
 
-  chack_googlesheet_Writing(Write) {
-    write = Write;
-    print("provider write = $transactions");
+  provider_setgoogleSheet() async {
+    var db = await transactionDB(dbName: "Transaction.db");
+    await db.setGoogleSheet();
+    Search_Data("google_sheet");
   }
 }
