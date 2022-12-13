@@ -3,5 +3,6 @@
         "datetime",
         "screentwo",
         "transactiong"
-    ]
+    ],
+    "cmake.sourceDirectory": "${workspaceFolder}/windows"
 }

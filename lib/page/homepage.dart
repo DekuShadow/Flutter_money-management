@@ -35,20 +35,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  NOT_DATA() {
-    if (chack2 == 0) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 150, 0, 0),
-        child: Container(
-          child: Text(
-            "NOT DATA",
-          ),
-        ),
-      );
-    }
-    return Container();
-  }
-
   @override
   Widget build(BuildContext context) {
     Alert(statement, chackMessage) {
@@ -158,7 +144,7 @@ class _HomePageState extends State<HomePage> {
     ];
     for (var i = 0; i < 9; i++) {
       testwidget.add(Padding(
-        padding: const EdgeInsets.fromLTRB(25, 0, 0, 0),
+        padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
         child: Container(
           height: 15,
           width: 10,
@@ -246,18 +232,19 @@ class _HomePageState extends State<HomePage> {
                                   topLeft: Radius.circular(30),
                                   topRight: Radius.circular(30))),
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 5, 10, 10),
+                            padding: const EdgeInsets.fromLTRB(10, 15, 10, 10),
                             child: Column(
                               children: [
-                                NOT_DATA(),
-                                SizedBox(
-                                  height: 10,
-                                ),
                                 Expanded(
-                                  child: /* 0 == 1
-                                            ? LoadingCircle()
-                                            :  */
-                                      ListView.builder(
+                                  child: chack2 == 0
+                                      ? Center(
+                                          child: Container(
+                                            child: Text(
+                                              "NOT DATA",
+                                            ),
+                                          ),
+                                        )
+                                      : ListView.builder(
                                           itemCount:
                                               provider.transactions.length,
                                           itemBuilder: (context, index) {
@@ -333,9 +320,9 @@ class _HomePageState extends State<HomePage> {
                               TextButton(
                                 child: Icon(Icons.settings),
                                 onPressed: () {
-                                  Provider.of<TransactionProviders>(context,
-                                          listen: false)
-                                      .provider_setgoogleSheet();
+                                  // Provider.of<TransactionProviders>(context,
+                                  //         listen: false)
+                                  //     .provider_setgoogleSheet();
                                   // Navigator.push(context,
                                   //     MaterialPageRoute(builder: (context) {
                                   //   return Settings();

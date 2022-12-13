@@ -19,13 +19,13 @@ class TransactionProviders with ChangeNotifier {
 
   List put_incomeANDexpense() {
     List package = [];
-    int income = 0;
-    int expanse = 0;
+    double income = 0;
+    double expanse = 0;
     for (var index in transactions) {
       if (index.Expanse) {
-        income = int.parse(index.Amount) + income;
+        income = double.parse(index.Amount) + income;
       } else {
-        expanse = int.parse(index.Amount) + expanse;
+        expanse = double.parse(index.Amount) + expanse;
       }
     }
     package.insert(0, income);

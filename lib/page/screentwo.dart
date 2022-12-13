@@ -90,12 +90,11 @@ class _screntwoState extends State<screntwo> {
                       onPageChanged: (index) {
                         setState(() {
                           month = index + 1;
-                          if(month == 13){
-                          }
+                          if (month == 13) {}
                         });
                       },
                       itemBuilder: (context, index) {
-                        return page_topcard[index/*  % page_topcard.length */];
+                        return page_topcard[index /*  % page_topcard.length */];
                       },
                     ),
                   ),

@@ -35,7 +35,7 @@ class TopNeuCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(10, 100, 10, 0),
+                            padding: const EdgeInsets.fromLTRB(10, 110, 10, 0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
